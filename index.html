@@ -104,7 +104,7 @@
                 
                 <div class="gen-options" style="border-top: 1px dashed var(--border-color); padding-top: 15px;">
                     <label class="gen-label"><input type="checkbox" id="gen-subs" onchange="generateCommand()"> 📝 附帶中文字幕</label>
-                    <label class="gen-label"><input type="checkbox" id="gen-cookies" onchange="generateCommand()"> 🍪 解鎖私密/大會員 (使用瀏覽器 Cookie)</label>
+                    <label class="gen-label"><input type="checkbox" id="gen-cookies" onchange="generateCommand()"> 🍪 解鎖私密/會員 (需瀏覽器 Cookie)</label>
                     <label class="gen-label"><input type="checkbox" id="gen-playlist" onchange="generateCommand()"> 📦 下載整包播放清單</label>
                 </div>
             </div>
@@ -135,44 +135,50 @@ echo '--remux-video mp4' >> ~/.config/yt-dlp/config</code></pre>
         </div>
 
         <div class="card" style="border-left: 4px solid var(--accent-color);">
-            <h2>🚀 全能必殺技：智能分享攔截腳本 (雙核心版)</h2>
-            <p>不管是分享純網址 (如 IG/YT)，還是標題+網址 (如 B站/小紅書)，只要複製貼上這段代碼，Termux 就能完美接招，免打字一鍵下載！</p>
-            <p><span class="highlight">💡 秘訣：</span>在 App 點擊「分享給 Termux」，若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong> 即可！</p>
+            <h2>🚀 全能必殺技：智能分享攔截腳本 (防彈雙核心版)</h2>
+            <p>不管是分享純網址 (如 IG/YT)，還是標題+網址 (如 B站/小紅書)，複製貼上這段「防彈版代碼」，無視任何權限報錯，完美接招免打字一鍵下載！</p>
+            <p><span class="highlight">💡 秘訣：</span>在各大 App 點擊「分享給 Termux」，若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong> 即可自動執行！</p>
             <div class="code-container">
                 <div class="code-header">
                     <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-                    <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
+                    <button class="copy-btn" onclick="copyCode(this)">複製整段指令</button>
                 </div>
                 <pre><code>mkdir -p ~/bin
 
-# 1. 純網址分享攔截器
+# 1. 升級：純網址分享攔截器
 cat << 'EOF' > ~/bin/termux-url-opener
+#!/bin/bash
 clear
 echo "🚀 收到純網址，正在為您飆速下載..."
 URL=$(echo "$1" | grep -oE 'https?://[a-zA-Z0-9./?=_%:-]+' | head -n 1)
+
 if [ -n "$URL" ]; then
-    yt-dlp "$URL"
+    python -m yt_dlp "$URL"
 else
     echo "❌ 找不到有效網址！"
 fi
 echo ""
-read -p "✅ 任務結束！請按 Enter 鍵關閉視窗..."
+echo "✅ 任務結束！請按 Enter 鍵關閉視窗..."
+read -r dummy
 EOF
 chmod +x ~/bin/termux-url-opener
 
-# 2. 混合圖文分享攔截器
+# 2. 升級：混合圖文分享攔截器
 cat << 'EOF' > ~/bin/termux-file-editor
+#!/bin/bash
 clear
 echo "🚀 收到分享內容，正在自動過濾網址..."
 CONTENT=$(cat "$1")
 URL=$(echo "$CONTENT" | grep -oE 'https?://[a-zA-Z0-9./?=_%:-]+' | head -n 1)
+
 if [ -n "$URL" ]; then
-    yt-dlp "$URL"
+    python -m yt_dlp "$URL"
 else
     echo "❌ 找不到有效網址！"
 fi
 echo ""
-read -p "✅ 任務結束！請按 Enter 鍵關閉視窗..."
+echo "✅ 任務結束！請按 Enter 鍵關閉視窗..."
+read -r dummy
 EOF
 chmod +x ~/bin/termux-file-editor</code></pre>
             </div>
@@ -262,7 +268,7 @@ chmod +x ~/bin/termux-file-editor</code></pre>
                 contentDiv.innerHTML = `
                 <div class="card" style="border-left: 4px solid var(--accent-color);">
                     <h2>📥 1. 下載 Termux (安卓專區)</h2>
-                    <p><span class="warning-text">⚠️ 建議避開 Google Play 商店版本！</span> (雖然近期有更新，但因 Google 政策限制，常會發生無法執行腳本的權限報錯)</p>
+                    <p><span class="warning-text">⚠️ 建議避開 Google Play 商店版本！</span> (因 Google 政策限制，常會發生無法執行腳本的權限報錯)</p>
                     <p>✅ <strong>強烈建議從開源商店下載（完全解鎖無限制）：</strong></p>
                     <p>👉 <a href="https://f-droid.org/zh_Hant/packages/com.termux/" target="_blank">請點此從 F-Droid 官方下載最新 APK</a></p>
                 </div>`;
@@ -277,4 +283,3 @@ chmod +x ~/bin/termux-file-editor</code></pre>
     </script>
 </body>
 </html>
-
