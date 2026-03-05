@@ -135,52 +135,51 @@ echo '--remux-video mp4' >> ~/.config/yt-dlp/config</code></pre>
         </div>
 
         <div class="card" style="border-left: 4px solid var(--accent-color);">
-            <h2>🚀 全能必殺技：智能分享攔截腳本 (防彈雙核心版)</h2>
-            <p>不管是分享純網址 (如 IG/YT)，還是標題+網址 (如 B站/小紅書)，複製貼上這段「防彈版代碼」，無視任何權限報錯，完美接招免打字一鍵下載！</p>
-            <p><span class="highlight">💡 秘訣：</span>在各大 App 點擊「分享給 Termux」，若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong> 即可自動執行！</p>
+            <h2>🚀 全能必殺技：智能分享攔截腳本 (Python 防彈版)</h2>
+            <p>為了解決安卓系統背景分享時容易發生 <code>Permission denied</code> 權限報錯的問題，我們捨棄傳統做法，直接寫入純 Python 引擎。複製貼上這段「終極代碼」，完全免疫權限報錯，一鍵通殺純網址與混合圖文分享！</p>
+            <p><span class="highlight">💡 秘訣：</span>在各大 App 點擊「分享給 Termux」，若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong> 即可啟動引擎！</p>
             <div class="code-container">
                 <div class="code-header">
                     <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
                     <button class="copy-btn" onclick="copyCode(this)">複製整段指令</button>
                 </div>
-                <pre><code>mkdir -p ~/bin
+                <pre><code># 1. 強制清除所有卡死的舊檔案
+rm -f ~/bin/termux-url-opener
+rm -f ~/bin/termux-file-editor
+mkdir -p ~/bin
 
-# 1. 升級：純網址分享攔截器
-cat << 'EOF' > ~/bin/termux-url-opener
-#!/bin/bash
-clear
-echo "🚀 收到純網址，正在為您飆速下載..."
-URL=$(echo "$1" | grep -oE 'https?://[a-zA-Z0-9./?=_%:-]+' | head -n 1)
+# 2. 寫入無敵的 Python 攔截引擎
+cat &lt;&lt; 'EOF' &gt; ~/bin/termux-url-opener
+#!/data/data/com.termux/files/usr/bin/python
+import sys, os, re
 
-if [ -n "$URL" ]; then
-    python -m yt_dlp "$URL"
-else
-    echo "❌ 找不到有效網址！"
-fi
-echo ""
-echo "✅ 任務結束！請按 Enter 鍵關閉視窗..."
-read -r dummy
+print("\n🚀 正在啟動純淨下載引擎...")
+try:
+    content = sys.argv[1]
+    
+    # 自動判斷是純網址還是圖文混合
+    if os.path.isfile(content):
+        with open(content, 'r', encoding='utf-8') as f:
+            content = f.read()
+            
+    # 精準捕捉網址
+    urls = re.findall(r'https?://[a-zA-Z0-9./?=_%:-]+', content)
+    if urls:
+        url = urls[0]
+        print(f"🔗 鎖定目標網址: {url}\n")
+        # 底層直連，免疫權限與路徑遺失問題
+        os.system(f'"{sys.executable}" -m yt_dlp "{url}"')
+    else:
+        print("❌ 找不到有效網址！")
+except Exception as e:
+    print(f"❌ 發生致命錯誤: {e}")
+
+input("\n✅ 任務結束！請按 Enter 鍵關閉視窗...")
 EOF
+
+# 3. 賦予權限並共用引擎
 chmod +x ~/bin/termux-url-opener
-
-# 2. 升級：混合圖文分享攔截器
-cat << 'EOF' > ~/bin/termux-file-editor
-#!/bin/bash
-clear
-echo "🚀 收到分享內容，正在自動過濾網址..."
-CONTENT=$(cat "$1")
-URL=$(echo "$CONTENT" | grep -oE 'https?://[a-zA-Z0-9./?=_%:-]+' | head -n 1)
-
-if [ -n "$URL" ]; then
-    python -m yt_dlp "$URL"
-else
-    echo "❌ 找不到有效網址！"
-fi
-echo ""
-echo "✅ 任務結束！請按 Enter 鍵關閉視窗..."
-read -r dummy
-EOF
-chmod +x ~/bin/termux-file-editor</code></pre>
+cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
             </div>
         </div>
 
