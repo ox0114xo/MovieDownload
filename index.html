@@ -36,8 +36,24 @@
         /* 標籤雲樣式 */
         .tags-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
         .tag { background-color: #238636; color: #ffffff; padding: 5px 12px; border-radius: 15px; font-size: 0.85em; font-weight: bold; }
-        .tag.special { background-color: #8957e5; }
+        .tag.special { background-color: #8957e5; cursor: pointer; transition: transform 0.2s, background-color 0.2s; user-select: none; }
+        .tag.special:hover { transform: scale(1.05); background-color: #9d6aea; }
+        .tag.nsfw { background-color: #d73a49; } /* 特殊站點顏色 */
+        .tag.music { background-color: #0366d6; } /* 音樂站點顏色 */
         
+        /* 隱藏展開區塊特效 */
+        #more-sites {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* 程式碼區塊樣式 */
         .code-container { background-color: var(--code-bg); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
         .code-header { background-color: #1f2428; padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
@@ -64,19 +80,51 @@
         </header>
 
         <div class="card" style="border-left: 4px solid #8957e5;">
-            <h2>🌐 支援平台火力展示 (超過 1000+ 網站)</h2>
-            <p>只要網址裡有影片，99% 都能用這套工具直接拔下來！以下為常見支援平台：</p>
+            <h2>🌐 支援平台火力展示 (支援 1800+ 網站)</h2>
+            <p>只要網址裡有影片或音樂，99% 都能用這套工具直接拔下來！</p>
             <div class="tags-container">
                 <span class="tag">Instagram (含 Reels)</span>
                 <span class="tag">Threads</span>
                 <span class="tag">Facebook</span>
-                <span class="tag">YouTube (最高 4K)</span>
+                <span class="tag">YouTube (最高支援 4K/8K)</span>
                 <span class="tag">Bilibili (B站)</span>
-                <span class="tag">TikTok / 抖音</span>
+                <span class="tag">TikTok / 抖音 / 快手</span>
                 <span class="tag">X (Twitter)</span>
                 <span class="tag">Twitch (實況/剪輯)</span>
-                <span class="tag">Reddit</span>
-                <span class="tag special">以及更多隱藏大站...</span>
+                <span class="tag special" id="more-btn" onclick="toggleMoreSites()">👀 點擊展開更多隱藏大站...</span>
+            </div>
+
+            <div id="more-sites">
+                <p style="font-size: 0.9em; color: #8b949e; margin-bottom: 10px;">👇 這只是冰山一角，強大到連老司機都害怕：</p>
+                <div class="tags-container">
+                    <span class="tag">小紅書 (Xiaohongshu)</span>
+                    <span class="tag">愛奇藝 (iQIYI)</span>
+                    <span class="tag">優酷 (Youku)</span>
+                    <span class="tag">騰訊視頻 (Tencent)</span>
+                    <span class="tag">Niconico (ニコニコ)</span>
+                    <span class="tag">Line TV</span>
+                    <span class="tag">Vimeo</span>
+                    <span class="tag">Dailymotion</span>
+                    <span class="tag">TED Talks</span>
+                    <span class="tag">Reddit</span>
+                    <span class="tag">Weibo (微博)</span>
+                    <span class="tag">Discord (附件)</span>
+                    <span class="tag">Imgur</span>
+                    <span class="tag">Patreon</span>
+                    <span class="tag music">SoundCloud</span>
+                    <span class="tag music">Bandcamp</span>
+                    <span class="tag music">Apple Podcasts</span>
+                    <span class="tag music">Spotify (部分播客)</span>
+                    <span class="tag music">Mixcloud</span>
+                    <span class="tag nsfw">Pornhub</span>
+                    <span class="tag nsfw">XVideos</span>
+                    <span class="tag nsfw">FC2 Video</span>
+                    <span class="tag nsfw">SpankBang</span>
+                    
+                    <a href="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md" target="_blank" class="tag special" style="text-decoration: none; display: flex; align-items: center; gap: 5px;">
+                        🔗 前往 GitHub 查看完整 1800+ 清單
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -202,6 +250,20 @@ chmod +x ~/bin/termux-file-editor</code></pre>
     <div id="toast">✅ 程式碼已複製！</div>
 
     <script>
+        // 一鍵展開/收起隱藏清單的魔法
+        function toggleMoreSites() {
+            const moreSites = document.getElementById('more-sites');
+            const btn = document.getElementById('more-btn');
+            
+            if (moreSites.style.display === 'none' || moreSites.style.display === '') {
+                moreSites.style.display = 'block';
+                btn.innerHTML = '收起隱藏大站 🔼';
+            } else {
+                moreSites.style.display = 'none';
+                btn.innerHTML = '👀 點擊展開更多隱藏大站...';
+            }
+        }
+
         // 一鍵複製功能
         function copyCode(btn) {
             const codeBlock = btn.parentElement.nextElementSibling.querySelector('code');
@@ -260,4 +322,3 @@ chmod +x ~/bin/termux-file-editor</code></pre>
     </script>
 </body>
 </html>
-
