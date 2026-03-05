@@ -46,12 +46,7 @@
         pre { padding: 15px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; color: #e6edf3; margin:0; line-height: 1.4; }
         .highlight { color: #a5d6ff; background-color: rgba(56, 139, 253, 0.15); padding: 2px 6px; border-radius: 4px; font-weight: bold; }
 
-        /* 產生器表單樣式 */
-        .generator-box { background-color: #0d1117; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; }
-        .gen-input { width: 100%; padding: 10px; margin-bottom: 15px; background-color: #161b22; border: 1px solid var(--border-color); color: #fff; border-radius: 5px; font-size: 1em; }
-        .gen-options { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; }
-        .gen-label { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 0.95em; }
-        
+        /* 彈出提示樣式 */
         #toast { visibility: hidden; min-width: 200px; background-color: var(--accent-color); color: #fff; text-align: center; border-radius: 5px; padding: 12px; position: fixed; z-index: 1; left: 50%; bottom: 30px; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
         #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
     </style>
@@ -90,37 +85,29 @@
 
         <div id="os-dynamic-content"></div>
 
-        <div class="card" style="border-left: 4px solid #58a6ff;">
-            <h2>🎛️ 獨家功能：自訂指令產生器</h2>
-            <p>不想記複雜的代碼？直接貼上網址並勾選功能，幫你一鍵產生專屬魔法指令！</p>
-            
-            <div class="generator-box">
-                <input type="text" id="gen-url" class="gen-input" placeholder="🔗 在此貼上你要下載的影片網址..." oninput="generateCommand()">
-                
-                <div class="gen-options">
-                    <label class="gen-label"><input type="radio" name="format" value="video" checked onchange="generateCommand()"> 🎬 下載影片 (MP4)</label>
-                    <label class="gen-label"><input type="radio" name="format" value="audio" onchange="generateCommand()"> 🎧 純抽音樂 (MP3)</label>
-                </div>
-                
-                <div class="gen-options" style="border-top: 1px dashed var(--border-color); padding-top: 15px;">
-                    <label class="gen-label"><input type="checkbox" id="gen-subs" onchange="generateCommand()"> 📝 附帶中文字幕</label>
-                    <label class="gen-label"><input type="checkbox" id="gen-cookies" onchange="generateCommand()"> 🍪 解鎖私密/會員 (需瀏覽器 Cookie)</label>
-                    <label class="gen-label"><input type="checkbox" id="gen-playlist" onchange="generateCommand()"> 📦 下載整包播放清單</label>
-                </div>
-            </div>
-
+        <div class="card">
+            <h2>🛠️ 2. 基礎核心與魔法師安裝</h2>
+            <p>首次使用請先輸入第一行指令<strong>賦予手機儲存權限</strong>。接著安裝最強下載核心 <code>yt-dlp</code> 與影音融合工具 <code>ffmpeg</code>。</p>
             <div class="code-container">
                 <div class="code-header">
                     <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-                    <button class="copy-btn" id="gen-copy-btn" onclick="copyGenCode()">複製產生的指令</button>
+                    <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
                 </div>
-                <pre><code id="generated-code" style="color: #a5d6ff;">請先在上方輸入網址...</code></pre>
+                <pre><code>termux-setup-storage
+pkg update && pkg upgrade -y
+pkg install python ffmpeg -y
+pip install -U yt-dlp</code></pre>
             </div>
         </div>
 
         <div class="card">
-            <h2>⚙️ 一鍵全自動防呆設定 (初次必用)</h2>
-            <p>貼上這段指令，您將享有：<span class="highlight">超過50字自動縮減檔名</span>、<span class="highlight">強制轉MP4</span>、<span class="highlight">存入 Download 資料夾</span>的完美防呆機制。</p>
+            <h2>⚙️ 3. 一鍵全自動防呆設定 (初次必用)</h2>
+            <p>我們幫你設計了最貼心的「管家機制」，貼上這段指令後，您將享有以下特權：</p>
+            <ul>
+                <li><span class="highlight">自動防錯：</span>如果影片標題太長，會自動縮減至 <strong>50個字以內</strong>，防止手機存檔失敗報錯。</li>
+                <li><span class="highlight">相容性 100%：</span>所有影片都會強制轉為 <strong>MP4 格式</strong>，確保任何手機相簿都能直接播放。</li>
+                <li><span class="highlight">免找檔案：</span>下載完畢會自動存入手機的 <strong>Download (下載)</strong> 資料夾。</li>
+            </ul>
             <div class="code-container">
                 <div class="code-header">
                     <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
@@ -135,9 +122,9 @@ echo '--remux-video mp4' >> ~/.config/yt-dlp/config</code></pre>
         </div>
 
         <div class="card" style="border-left: 4px solid var(--accent-color);">
-            <h2>🚀 全能必殺技：智能分享攔截腳本 (Python 防彈版)</h2>
-            <p>為了解決安卓系統背景分享時容易發生 <code>Permission denied</code> 權限報錯的問題，我們捨棄傳統做法，直接寫入純 Python 引擎。複製貼上這段「終極代碼」，完全免疫權限報錯，一鍵通殺純網址與混合圖文分享！</p>
-            <p><span class="highlight">💡 秘訣：</span>在各大 App 點擊「分享給 Termux」，若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong> 即可啟動引擎！</p>
+            <h2>🚀 4. 全能必殺技：智能分享攔截腳本 (Python 防彈版)</h2>
+            <p>為了解決安卓系統背景分享時容易發生「權限報錯」的問題，我們捨棄傳統做法，直接寫入純 Python 引擎。複製貼上這段「終極代碼」，完全免疫權限報錯，一鍵通殺純網址與混合圖文分享！</p>
+            <p><span class="highlight">💡 使用秘訣：</span>在各大 App 看到影片，點擊<strong>「分享給 Termux」</strong>，若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong> 即可自動下載！</p>
             <div class="code-container">
                 <div class="code-header">
                     <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
@@ -183,53 +170,60 @@ cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
             </div>
         </div>
 
+        <div class="card" style="border-left: 4px solid #ffbd2e;">
+            <h2>🪄 5. 進階魔法指令 (高階玩家專屬)</h2>
+            <p>除了無腦分享下載，你也可以在 Termux 裡手動輸入「密語」來達成更高級的任務（請將指令中的 <code style="color:var(--warning-color);">"網址"</code> 替換為真實連結）：</p>
+            
+            <ul>
+                <li><strong>🎧 只要聲音 (MP3 模式)：</strong><br>
+                把翻唱影片或 Podcast 直接抽成 MP3 音樂。
+                <div class="code-container" style="margin-top: 5px;">
+                    <div class="code-header">
+                        <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                        <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
+                    </div>
+                    <pre><code>yt-dlp -x --audio-format mp3 "網址"</code></pre>
+                </div>
+                </li>
+
+                <li><strong>📦 影分身之術 (整包播放清單下載)：</strong><br>
+                遇到 YouTube 整套教學或音樂精選集，一鍵全部排隊下載。
+                <div class="code-container" style="margin-top: 5px;">
+                    <div class="code-header">
+                        <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                        <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
+                    </div>
+                    <pre><code>yt-dlp --yes-playlist "播放清單網址"</code></pre>
+                </div>
+                </li>
+
+                <li><strong>📉 手機容量救星 (限制最高畫質 1080p)：</strong><br>
+                不想被 4K 影片塞爆手機容量？強制它只抓 1080p 版本。
+                <div class="code-container" style="margin-top: 5px;">
+                    <div class="code-header">
+                        <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                        <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
+                    </div>
+                    <pre><code>yt-dlp -S "res:1080" "網址"</code></pre>
+                </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2>🆘 疑難排解 (Bug 急救站)</h2>
+            <ul style="list-style-type: disc;">
+                <li><strong>突然跳紅字不能下載了？</strong><br>網站防抓取機制更新了。打開 Termux 輸入 <code>pip install -U yt-dlp</code> 升級到最新版，通常就能滿血復活。</li>
+                <li><strong>手動下載指令：</strong>不想用分享按鈕，也可以在 Termux 直接輸入 <code>yt-dlp "你要下載的網址"</code>。</li>
+            </ul>
+        </div>
+
     </div>
 
     <div id="toast">✅ 程式碼已複製！</div>
 
     <script>
-        // 互動式產生器核心邏輯
-        function generateCommand() {
-            const urlInput = document.getElementById('gen-url').value.trim();
-            const format = document.querySelector('input[name="format"]:checked').value;
-            const hasSubs = document.getElementById('gen-subs').checked;
-            const hasCookies = document.getElementById('gen-cookies').checked;
-            const isPlaylist = document.getElementById('gen-playlist').checked;
-            
-            const codeDisplay = document.getElementById('generated-code');
-            
-            if (!urlInput) {
-                codeDisplay.style.color = "#8b949e";
-                codeDisplay.innerText = "請先在上方輸入網址...";
-                return;
-            }
-
-            let cmd = "yt-dlp ";
-            if (format === "audio") cmd += "-x --audio-format mp3 ";
-            if (hasSubs) cmd += "--write-auto-subs --sub-langs zh-Hant,zh-Hans,en ";
-            if (hasCookies) cmd += "--cookies-from-browser chrome ";
-            if (isPlaylist) cmd += "--yes-playlist ";
-            else cmd += "--no-playlist ";
-            
-            cmd += `"${urlInput}"`;
-            
-            codeDisplay.style.color = "#a5d6ff";
-            codeDisplay.innerText = cmd;
-        }
-
-        function copyGenCode() {
-            const textToCopy = document.getElementById('generated-code').innerText;
-            if (textToCopy.includes("請先在上方輸入網址")) return;
-            
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const btn = document.getElementById('gen-copy-btn');
-                const originalText = btn.innerText;
-                btn.innerText = '已複製！'; btn.style.backgroundColor = '#2ea043'; btn.style.color = '#fff';
-                showToast();
-                setTimeout(() => { btn.innerText = originalText; btn.style.backgroundColor = ''; btn.style.color = ''; }, 2000);
-            });
-        }
-
+        // 展開隱藏站點
         function toggleMoreSites() {
             const moreSites = document.getElementById('more-sites');
             const btn = document.getElementById('more-btn');
@@ -240,6 +234,7 @@ cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
             }
         }
 
+        // 一鍵複製功能
         function copyCode(btn) {
             const codeBlock = btn.parentElement.nextElementSibling.querySelector('code');
             navigator.clipboard.writeText(codeBlock.innerText).then(() => {
@@ -273,10 +268,10 @@ cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
                 </div>`;
             } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
                 badge.innerText = "🍎 偵測到您的裝置：iOS (系統受限)";
-                contentDiv.innerHTML = `<div class="card" style="border-left: 4px solid var(--warning-color);"><h2>🍎 1. iOS 用戶提示</h2><p>蘋果系統受限無法安裝 Termux，您可以將網址貼到上方產生器，使用電腦終端機進行下載！</p></div>`;
+                contentDiv.innerHTML = `<div class="card" style="border-left: 4px solid var(--warning-color);"><h2>🍎 1. iOS 用戶提示</h2><p>蘋果系統受限無法安裝 Termux。您可以將此網頁分享給用安卓的朋友炫耀一下，或是改用電腦操作！</p></div>`;
             } else {
                 badge.innerText = "💻 偵測到您的裝置：電腦版桌面系統";
-                contentDiv.innerHTML = `<div class="card" style="border-left: 4px solid var(--link-color);"><h2>💻 1. 電腦版用戶提示</h2><p>電腦不需安裝 Termux！打開 cmd 或終端機，安裝 Python 後輸入 <code>pip install yt-dlp</code> 即可，並可搭配上方的「指令產生器」服用！</p></div>`;
+                contentDiv.innerHTML = `<div class="card" style="border-left: 4px solid var(--link-color);"><h2>💻 1. 電腦版用戶提示</h2><p>電腦不需安裝 Termux！打開 cmd 或終端機，安裝 Python 後輸入 <code>pip install yt-dlp</code> 即可，並可搭配下方的「進階魔法指令」服用！</p></div>`;
             }
         };
     </script>
