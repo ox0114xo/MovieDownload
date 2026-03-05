@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 Termux 終極影音下載神器教學</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --accent-color: #2ea043; /* 終端機綠 */
+            --code-bg: #161b22;
+            --card-bg: #1c2128;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #58a6ff;
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 40px;
+        }
+        h2 {
+            color: var(--accent-color);
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+        }
+        code {
+            color: #ff7b72;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .highlight {
+            color: #a5d6ff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Termux 終極影音下載神器</h1>
+        <div class="subtitle">支援 IG, Threads, FB, Bilibili, YouTube 一鍵無廣告下載</div>
+
+        <div class="card">
+            <h2>🛠️ 1. 基礎核心安裝</h2>
+            <p>打開 Termux，首先賦予手機存取權限，並安裝最強下載器 <code>yt-dlp</code> 與影音融合魔法師 <code>ffmpeg</code>。</p>
+            <pre><code>termux-setup-storage
+pkg update && pkg upgrade -y
+pkg install python ffmpeg -y
+pip install -U yt-dlp</code></pre>
+        </div>
+
+        <div class="card">
+            <h2>⚙️ 2. 全自動存檔設定 (免搬運)</h2>
+            <p>設定這段指令後，下載的影片會自動轉成 MP4，縮短檔名，並直接存入手機相簿的 Download 資料夾。</p>
+            <pre><code>mkdir -p ~/.config/yt-dlp
+echo '-o /sdcard/Download/%(title)s.%(ext)s' > ~/.config/yt-dlp/config
+echo '--merge-output-format mp4' >> ~/.config/yt-dlp/config
+echo '--trim-filenames 50' >> ~/.config/yt-dlp/config
+echo '--remux-video mp4' >> ~/.config/yt-dlp/config</code></pre>
+        </div>
+
+        <div class="card">
+            <h2>🚀 3. 終極必殺技：一鍵分享下載腳本</h2>
+            <p>這是一段攔截腳本，能自動過濾 B站/小紅書 帶有中文字的分享連結，精準抓出網址並下載。</p>
+            <p><span class="highlight">💡 用法：</span>在 App 點擊分享給 Termux，遇到彈出視窗請點擊右下角的 <strong>EDIT</strong> 即可開始下載！</p>
+            <pre><code>mkdir -p ~/bin
+
+cat << 'EOF' > ~/bin/termux-file-editor
+clear
+echo "🚀 收到分享內容，正在自動過濾網址..."
+CONTENT=$(cat "$1")
+URL=$(echo "$CONTENT" | grep -oE 'https?://[a-zA-Z0-9./?=_%:-]+' | head -n 1)
+
+if [ -n "$URL" ]; then
+    echo "🔗 成功提取網址: $URL"
+    yt-dlp "$URL"
+else
+    echo "❌ 找不到有效網址！"
+fi
+echo ""
+read -p "✅ 任務結束！請按 Enter 鍵關閉..."
+EOF
+
+chmod +x ~/bin/termux-file-editor</code></pre>
+        </div>
+
+        <div class="card">
+            <h2>🆘 遇到問題怎麼辦？</h2>
+            <ul>
+                <li><strong>無法下載或報錯？</strong> 網站通常改版了，輸入 <code>pip install -U yt-dlp</code> 更新即可滿血復活。</li>
+                <li><strong>純網址分享：</strong> 如果你只複製了純網址，也可以直接在 Termux 輸入 <code>yt-dlp "你的網址"</code> 進行手動下載。</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
