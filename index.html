@@ -17,25 +17,13 @@
             --info-color: #a5d6ff;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; padding: 20px; }
         .container { max-width: 800px; margin: 0 auto; padding-bottom: 40px; }
         header { text-align: center; margin-bottom: 40px; padding-top: 20px; }
         h1 { color: var(--link-color); font-size: 2.2em; margin-bottom: 10px; }
-        .subtitle { color: #8b949e; font-size: 1.1em; margin-bottom: 10px;}
-        .os-badge { 
-            display: inline-block; background-color: #21262d; border: 1px solid var(--border-color);
-            padding: 4px 12px; border-radius: 20px; font-size: 0.85em; color: var(--info-color);
-        }
-        .card {
-            background-color: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 10px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        .subtitle { color: #8b949e; font-size: 1.1em; margin-bottom: 15px;}
+        .os-badge { display: inline-block; background-color: #21262d; border: 1px solid var(--border-color); padding: 4px 12px; border-radius: 20px; font-size: 0.85em; color: var(--info-color); }
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .card h2 { color: var(--accent-color); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
         .card p, .card ul { margin-bottom: 15px; color: #b1bac4; }
         .card ul { list-style-type: none; }
@@ -44,6 +32,11 @@
         a { color: var(--link-color); text-decoration: none; font-weight: bold; }
         a:hover { color: #79c0ff; text-decoration: underline; }
         .warning-text { color: var(--warning-color); font-weight: bold; }
+        
+        /* 標籤雲樣式 */
+        .tags-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .tag { background-color: #238636; color: #ffffff; padding: 5px 12px; border-radius: 15px; font-size: 0.85em; font-weight: bold; }
+        .tag.special { background-color: #8957e5; }
         
         /* 程式碼區塊樣式 */
         .code-container { background-color: var(--code-bg); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
@@ -54,7 +47,7 @@
         .copy-btn { background-color: #21262d; color: #c9d1d9; border: 1px solid var(--border-color); border-radius: 5px; padding: 4px 10px; font-size: 0.85em; cursor: pointer; transition: all 0.2s; }
         .copy-btn:hover { background-color: #30363d; border-color: #8b949e; }
         pre { padding: 15px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 0.95em; color: #e6edf3; }
-        .highlight { color: #a5d6ff; background-color: rgba(56, 139, 253, 0.15); padding: 2px 6px; border-radius: 4px; }
+        .highlight { color: #a5d6ff; background-color: rgba(56, 139, 253, 0.15); padding: 2px 6px; border-radius: 4px; font-weight: bold; }
 
         /* 彈出提示樣式 */
         #toast { visibility: hidden; min-width: 200px; background-color: var(--accent-color); color: #fff; text-align: center; border-radius: 5px; padding: 12px; position: fixed; z-index: 1; left: 50%; bottom: 30px; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
@@ -65,10 +58,27 @@
 
     <div class="container">
         <header>
-            <h1>📱 Termux 終極影音下載神器</h1>
-            <div class="subtitle">通殺 IG、Threads、FB、B站、YouTube，純腳本無廣告</div>
+            <h1>📱 終極影音下載神器</h1>
+            <div class="subtitle">史上最強腳本，無廣告、免登入、最高畫質通殺</div>
             <div id="device-badge" class="os-badge">正在偵測您的裝置...</div>
         </header>
+
+        <div class="card" style="border-left: 4px solid #8957e5;">
+            <h2>🌐 支援平台火力展示 (超過 1000+ 網站)</h2>
+            <p>只要網址裡有影片，99% 都能用這套工具直接拔下來！以下為常見支援平台：</p>
+            <div class="tags-container">
+                <span class="tag">Instagram (含 Reels)</span>
+                <span class="tag">Threads</span>
+                <span class="tag">Facebook</span>
+                <span class="tag">YouTube (最高 4K)</span>
+                <span class="tag">Bilibili (B站)</span>
+                <span class="tag">TikTok / 抖音</span>
+                <span class="tag">X (Twitter)</span>
+                <span class="tag">Twitch (實況/剪輯)</span>
+                <span class="tag">Reddit</span>
+                <span class="tag special">以及更多隱藏大站...</span>
+            </div>
+        </div>
 
         <div id="os-dynamic-content"></div>
 
@@ -88,8 +98,13 @@ pip install -U yt-dlp</code></pre>
         </div>
 
         <div class="card">
-            <h2>⚙️ 3. 全自動存檔與轉檔設定</h2>
-            <p>貼上這段指令，以後下載的影片都會自動轉為 MP4、縮短檔名，並直接送進手機的 <strong>Download</strong> 資料夾。</p>
+            <h2>⚙️ 3. 全自動存檔與防呆設定 (強烈建議)</h2>
+            <p>我們幫你設計了最貼心的「管家機制」，貼上這段指令後，您將享有以下特權：</p>
+            <ul>
+                <li><span class="highlight">自動防錯：</span>如果影片標題太長，會自動縮減至 <strong>50個字以內</strong>，防止手機存檔失敗報錯。</li>
+                <li><span class="highlight">相容性 100%：</span>所有影片都會強制轉為 <strong>MP4 格式</strong>，確保任何手機相簿都能直接播放。</li>
+                <li><span class="highlight">免找檔案：</span>下載完畢會自動存入手機的 <strong>Download (下載)</strong> 資料夾。</li>
+            </ul>
             <div class="code-container">
                 <div class="code-header">
                     <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
@@ -104,9 +119,9 @@ echo '--remux-video mp4' >> ~/.config/yt-dlp/config</code></pre>
         </div>
 
         <div class="card">
-            <h2>🚀 4. 終極分享攔截腳本 (B站/小紅書必備)</h2>
-            <p>這個腳本能自動過濾出帶有中文字分享裡的乾淨網址。</p>
-            <p><span class="highlight">💡 秘訣：</span>在 App 點擊「分享給 Termux」，若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong>！</p>
+            <h2>🚀 4. 懶人必殺技：智能分享攔截腳本</h2>
+            <p>遇到 B站 或 小紅書 這種「標題+網址」的混合分享也不怕！設定好這個腳本，以後免打字一鍵下載。</p>
+            <p><span class="highlight">💡 使用秘訣：</span>在 App 點擊「分享給 Termux」，若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong> 即可！</p>
             <div class="code-container">
                 <div class="code-header">
                     <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
@@ -133,6 +148,55 @@ EOF
 chmod +x ~/bin/termux-file-editor</code></pre>
             </div>
         </div>
+
+        <div class="card" style="border-left: 4px solid #ffbd2e;">
+            <h2>🪄 5. 進階魔法指令 (高階玩家專屬)</h2>
+            <p>除了無腦分享下載，你也可以手動輸入「密語」來達成更高級的任務（請將指令中的 <code style="color:var(--warning-color);">"網址"</code> 替換為真實連結）：</p>
+            
+            <ul>
+                <li><strong>🎧 只要聲音 (MP3 模式)：</strong><br>
+                把翻唱影片或 Podcast 直接抽成 MP3 音樂。
+                <div class="code-container" style="margin-top: 5px;">
+                    <div class="code-header">
+                        <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                        <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
+                    </div>
+                    <pre><code>yt-dlp -x --audio-format mp3 "網址"</code></pre>
+                </div>
+                </li>
+
+                <li><strong>📦 影分身之術 (整包播放清單下載)：</strong><br>
+                遇到 YouTube 整套教學或音樂精選集，一鍵全部排隊下載。
+                <div class="code-container" style="margin-top: 5px;">
+                    <div class="code-header">
+                        <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                        <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
+                    </div>
+                    <pre><code>yt-dlp --yes-playlist "播放清單網址"</code></pre>
+                </div>
+                </li>
+
+                <li><strong>📉 手機容量救星 (限制最高畫質 1080p)：</strong><br>
+                不想被 4K 影片塞爆手機容量？強制它只抓 1080p 版本。
+                <div class="code-container" style="margin-top: 5px;">
+                    <div class="code-header">
+                        <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                        <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
+                    </div>
+                    <pre><code>yt-dlp -S "res:1080" "網址"</code></pre>
+                </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2>🆘 疑難排解 (Bug 急救站)</h2>
+            <ul style="list-style-type: disc;">
+                <li><strong>突然跳紅字不能下載了？</strong><br>網站防抓取機制更新了。打開 Termux 輸入 <code>pip install -U yt-dlp</code> 升級到最新版，通常就能滿血復活。</li>
+                <li><strong>手動下載指令：</strong>不想用分享按鈕，也可以在 Termux 直接輸入 <code>yt-dlp "網址"</code>。</li>
+            </ul>
+        </div>
+
     </div>
 
     <div id="toast">✅ 程式碼已複製！</div>
@@ -176,7 +240,7 @@ chmod +x ~/bin/termux-file-editor</code></pre>
                 <div class="card" style="border-left: 4px solid var(--warning-color);">
                     <h2>🍎 1. iOS 用戶溫馨提示</h2>
                     <p>很抱歉，因為蘋果系統的封閉性，<strong>iOS 無法安裝 Termux</strong>。</p>
-                    <p>👉 若您想在 iPhone 上使用類似功能，建議使用 iOS 內建的「捷徑 (Shortcuts)」配合其他下載腳本，或是在電腦上操作喔！您可以將此網頁分享給用安卓的朋友炫耀一下 😆</p>
+                    <p>👉 若您想在 iPhone 上使用類似功能，建議使用 iOS 內建的「捷徑 (Shortcuts)」，或是在電腦上操作喔！您可以將此網頁分享給用安卓的朋友炫耀一下 😆</p>
                 </div>`;
             } else {
                 // 電腦版介面 (Windows/Mac)
@@ -185,9 +249,9 @@ chmod +x ~/bin/termux-file-editor</code></pre>
                 <div class="card" style="border-left: 4px solid var(--link-color);">
                     <h2>💻 1. 電腦版 (Windows/Mac) 用戶提示</h2>
                     <p>太棒了！電腦版<strong>不需要安裝 Termux</strong>！因為電腦內建就有強大的終端機。</p>
-                    <p>👉 <strong>Windows 用戶：</strong>請打開「命令提示字元 (cmd)」，直接安裝 Python 後，使用 <code>pip install yt-dlp</code> 即可。<br>
-                    👉 <strong>Mac 用戶：</strong>請打開「終端機 (Terminal)」，使用 <code>brew install yt-dlp</code> 即可。</p>
-                    <p>下方指令主要是寫給手機版 Termux 用的，電腦版用戶請直接享受 <code>yt-dlp</code> 原生指令的快感吧！</p>
+                    <p>👉 <strong>Windows 用戶：</strong>請打開「命令提示字元 (cmd)」，安裝 Python 後，直接輸入 <code>pip install yt-dlp</code> 即可。<br>
+                    👉 <strong>Mac 用戶：</strong>請打開「終端機 (Terminal)」，輸入 <code>brew install yt-dlp</code> 即可。</p>
+                    <p>下方指令主要是寫給手機版用的，電腦版用戶請直接搭配上方第5點的【進階魔法指令】服用吧！</p>
                 </div>`;
             }
 
@@ -196,5 +260,4 @@ chmod +x ~/bin/termux-file-editor</code></pre>
     </script>
 </body>
 </html>
-</body>
-</html>
+
