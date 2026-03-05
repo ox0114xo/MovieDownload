@@ -55,8 +55,8 @@
 
     <div class="container">
         <header>
-            <h1>📱 終極影音下載神器</h1>
-            <div class="subtitle">史上最強腳本，無廣告、免登入、最高畫質通殺</div>
+            <h1>📱 終極影音下載神器教學</h1>
+            <div class="subtitle">初心者也能輕鬆上手！無廣告、免登入、最高畫質通殺</div>
             <div id="device-badge" class="os-badge">正在偵測您的裝置...</div>
         </header>
 
@@ -73,7 +73,7 @@
                 <span class="tag special" id="more-btn" onclick="toggleMoreSites()">👀 點擊展開更多隱藏大站...</span>
             </div>
             <div id="more-sites">
-                <p style="font-size: 0.9em; color: #8b949e; margin-bottom: 10px;">👇 這只是冰山一角，強大到連老司機都害怕：</p>
+                <p style="font-size: 0.9em; color: #8b949e; margin-bottom: 10px;">👇 這只是冰山一角，強大到幾乎沒有極限：</p>
                 <div class="tags-container">
                     <span class="tag">小紅書 (Xiaohongshu)</span> <span class="tag">愛奇藝</span> <span class="tag">Niconico</span>
                     <span class="tag">Vimeo</span> <span class="tag">Reddit</span> <span class="tag music">SoundCloud</span>
@@ -86,8 +86,9 @@
         <div id="os-dynamic-content"></div>
 
         <div class="card">
-            <h2>🛠️ 2. 基礎核心與魔法師安裝</h2>
-            <p>首次使用請先輸入第一行指令<strong>賦予手機儲存權限</strong>。接著安裝最強下載核心 <code>yt-dlp</code> 與影音融合工具 <code>ffmpeg</code>。</p>
+            <h2>🛠️ 2. 打底子：安裝核心與魔法師</h2>
+            <p>打開剛裝好的 Termux，首次使用請先輸入第一行指令<strong>賦予手機儲存權限</strong>（會跳出詢問視窗，請按允許）。接著安裝最強下載核心 <code>yt-dlp</code> 與影音融合工具 <code>ffmpeg</code>。</p>
+            <p><span class="highlight">💡 提示：</span> 請點擊「複製指令」，貼入 Termux 後按 Enter 執行，跑到出現 <code>$</code> 符號代表完成。</p>
             <div class="code-container">
                 <div class="code-header">
                     <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
@@ -101,7 +102,7 @@ pip install -U yt-dlp</code></pre>
         </div>
 
         <div class="card">
-            <h2>⚙️ 3. 一鍵全自動防呆設定 (初次必用)</h2>
+            <h2>⚙️ 3. 裝管家：全自動存檔防呆設定</h2>
             <p>我們幫你設計了最貼心的「管家機制」，貼上這段指令後，您將享有以下特權：</p>
             <ul>
                 <li><span class="highlight">自動防錯：</span>如果影片標題太長，會自動縮減至 <strong>50個字以內</strong>，防止手機存檔失敗報錯。</li>
@@ -122,57 +123,54 @@ echo '--remux-video mp4' >> ~/.config/yt-dlp/config</code></pre>
         </div>
 
         <div class="card" style="border-left: 4px solid var(--accent-color);">
-            <h2>🚀 4. 全能必殺技：智能分享攔截腳本 (Python 防彈版)</h2>
-            <p>為了解決安卓系統背景分享時容易發生「權限報錯」的問題，我們捨棄傳統做法，直接寫入純 Python 引擎。複製貼上這段「終極代碼」，完全免疫權限報錯，一鍵通殺純網址與混合圖文分享！</p>
-            <p><span class="highlight">💡 使用秘訣：</span>在各大 App 看到影片，點擊<strong>「分享給 Termux」</strong>，若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong> 即可自動下載！</p>
+            <h2>🚀 4. 裝引擎：智能分享攔截腳本 (終極防彈版)</h2>
+            <p>這段是最核心的「分享接管引擎」！它可以解決安卓系統嚴苛的權限限制。<br>複製貼上這段代碼，就能一鍵通殺**「純網址 (如 IG/YT)」**與**「圖文混合 (如 B站/小紅書)」**！</p>
+            <p><span class="highlight">💡 終極秘訣：</span>以後在各大 App 看到影片，點擊<strong>「分享給 Termux」</strong>。若跳出黑色詢問視窗，請點擊右下角 <strong>EDIT</strong>，它就會自動幫你飆速下載！</p>
             <div class="code-container">
                 <div class="code-header">
                     <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
                     <button class="copy-btn" onclick="copyCode(this)">複製整段指令</button>
                 </div>
-                <pre><code># 1. 強制清除所有卡死的舊檔案
+                <pre><code># 1. 強制清除舊的設定，砍掉重練
 rm -f ~/bin/termux-url-opener
 rm -f ~/bin/termux-file-editor
 mkdir -p ~/bin
 
-# 2. 寫入無敵的 Python 攔截引擎
+# 2. 寫入全新的「替身喚醒引擎」(完全免疫路徑遺失與權限報錯)
 cat &lt;&lt; 'EOF' &gt; ~/bin/termux-url-opener
-#!/data/data/com.termux/files/usr/bin/python
-import sys, os, re
+#!/data/data/com.termux/files/usr/bin/bash
+exec bash -l -c '
+clear
+echo "🚀 啟動終極下載引擎..."
 
-print("\n🚀 正在啟動純淨下載引擎...")
-try:
-    content = sys.argv[1]
-    
-    # 自動判斷是純網址還是圖文混合
-    if os.path.isfile(content):
-        with open(content, 'r', encoding='utf-8') as f:
-            content = f.read()
-            
-    # 精準捕捉網址
-    urls = re.findall(r'https?://[a-zA-Z0-9./?=_%:-]+', content)
-    if urls:
-        url = urls[0]
-        print(f"🔗 鎖定目標網址: {url}\n")
-        # 底層直連，免疫權限與路徑遺失問題
-        os.system(f'"{sys.executable}" -m yt_dlp "{url}"')
-    else:
-        print("❌ 找不到有效網址！")
-except Exception as e:
-    print(f"❌ 發生致命錯誤: {e}")
+CONTENT="$1"
+if [ -f "$CONTENT" ]; then
+    CONTENT=$(cat "$CONTENT")
+fi
 
-input("\n✅ 任務結束！請按 Enter 鍵關閉視窗...")
+URL=$(echo "$CONTENT" | grep -oE "https?://[a-zA-Z0-9./?=_%:-]+" | head -n 1)
+
+if [ -n "$URL" ]; then
+    echo "🔗 鎖定網址: $URL"
+    yt-dlp "$URL"
+else
+    echo "❌ 找不到有效網址！"
+fi
+
+echo ""
+read -p "✅ 任務結束！請按 Enter 鍵關閉視窗..." dummy
+' _ "$1"
 EOF
 
-# 3. 賦予權限並共用引擎
+# 3. 賦予執行權限，並讓純網址和圖文共用這個引擎
 chmod +x ~/bin/termux-url-opener
 cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
             </div>
         </div>
 
         <div class="card" style="border-left: 4px solid #ffbd2e;">
-            <h2>🪄 5. 進階魔法指令 (高階玩家專屬)</h2>
-            <p>除了無腦分享下載，你也可以在 Termux 裡手動輸入「密語」來達成更高級的任務（請將指令中的 <code style="color:var(--warning-color);">"網址"</code> 替換為真實連結）：</p>
+            <h2>🪄 5. 進階魔法指令 (隱藏大招)</h2>
+            <p>除了無腦分享下載，你也可以在 Termux 裡手動輸入「密語」來達成更高級的任務（請將指令中的 <code style="color:var(--warning-color);">"你要下載的網址"</code> 替換為真實連結，並保留雙引號）：</p>
             
             <ul>
                 <li><strong>🎧 只要聲音 (MP3 模式)：</strong><br>
@@ -182,7 +180,7 @@ cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
                         <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
                         <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
                     </div>
-                    <pre><code>yt-dlp -x --audio-format mp3 "網址"</code></pre>
+                    <pre><code>yt-dlp -x --audio-format mp3 "你要下載的網址"</code></pre>
                 </div>
                 </li>
 
@@ -193,7 +191,7 @@ cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
                         <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
                         <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
                     </div>
-                    <pre><code>yt-dlp --yes-playlist "播放清單網址"</code></pre>
+                    <pre><code>yt-dlp --yes-playlist "你要下載的網址"</code></pre>
                 </div>
                 </li>
 
@@ -204,7 +202,7 @@ cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
                         <div class="mac-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
                         <button class="copy-btn" onclick="copyCode(this)">複製指令</button>
                     </div>
-                    <pre><code>yt-dlp -S "res:1080" "網址"</code></pre>
+                    <pre><code>yt-dlp -S "res:1080" "你要下載的網址"</code></pre>
                 </div>
                 </li>
             </ul>
@@ -214,7 +212,7 @@ cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
             <h2>🆘 疑難排解 (Bug 急救站)</h2>
             <ul style="list-style-type: disc;">
                 <li><strong>突然跳紅字不能下載了？</strong><br>網站防抓取機制更新了。打開 Termux 輸入 <code>pip install -U yt-dlp</code> 升級到最新版，通常就能滿血復活。</li>
-                <li><strong>手動下載指令：</strong>不想用分享按鈕，也可以在 Termux 直接輸入 <code>yt-dlp "你要下載的網址"</code>。</li>
+                <li><strong>不想用分享按鈕下載？</strong><br>隨時可以在 Termux 直接輸入 <code>yt-dlp "你要下載的網址"</code>。</li>
             </ul>
         </div>
 
@@ -261,10 +259,11 @@ cp ~/bin/termux-url-opener ~/bin/termux-file-editor</code></pre>
                 badge.innerText = "🤖 偵測到您的裝置：Android (完美支援)";
                 contentDiv.innerHTML = `
                 <div class="card" style="border-left: 4px solid var(--accent-color);">
-                    <h2>📥 1. 下載 Termux (安卓專區)</h2>
-                    <p><span class="warning-text">⚠️ 建議避開 Google Play 商店版本！</span> (因 Google 政策限制，常會發生無法執行腳本的權限報錯)</p>
-                    <p>✅ <strong>強烈建議從開源商店下載（完全解鎖無限制）：</strong></p>
-                    <p>👉 <a href="https://f-droid.org/zh_Hant/packages/com.termux/" target="_blank">請點此從 F-Droid 官方下載最新 APK</a></p>
+                    <h2>📥 1. 下載 Termux (安卓避坑指南)</h2>
+                    <p><span class="warning-text">⚠️ 絕對不要從 Google Play 商店下載！</span> (因 Google 政策限制，舊版本會發生無法執行腳本的嚴重報錯)</p>
+                    <p>✅ <strong>請務必從開源商店下載（完全解鎖無限制）：</strong></p>
+                    <p>👉 <a href="https://f-droid.org/zh_Hant/packages/com.termux/" target="_blank">請點此從 F-Droid 官方下載最新 APK</a><br>
+                    <span style="font-size: 0.9em; color: #8b949e;">(滑到網頁最下方找到「下載 APK」按鈕即可安裝)</span></p>
                 </div>`;
             } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
                 badge.innerText = "🍎 偵測到您的裝置：iOS (系統受限)";
